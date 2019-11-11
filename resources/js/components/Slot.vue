@@ -68,7 +68,7 @@ export default {
         const dateTime = "";
 
         return {
-            componentName: 'About',
+            componentName: 'Slot',
             appUrl,
             slots,
             dateTime
