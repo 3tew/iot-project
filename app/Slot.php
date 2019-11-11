@@ -32,7 +32,7 @@ class Slot extends Model
                 'status' => $item->status,
                 'createdAt' => $item->created_at,
                 'updatedAt' => $item->updated_at,
-                'presentTime' => Slot::find($item->id)->present_time(),
+                'presentTime' => ($item->status) ? Slot::find($item->id)->present_time() : 0,
                 'countIn' => Slot::find($item->id)->count_in()
             ];
         });
