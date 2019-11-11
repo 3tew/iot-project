@@ -1,1 +1,16 @@
-//
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Nunito");
+
+// Variables
+@import "variables";
+
+//Bulma
+@import "~bulma/bulma";
+
+// FontAwesome
+@import "~@fortawesome/fontawesome-free/css/all.css";
+
+body {
+  background: rgb(34,193,195);
+  background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(199,254,255,1) 10%, rgba(255,255,255,1) 50%, rgba(255,255,255,1) 100%);
+}
