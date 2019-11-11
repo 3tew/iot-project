@@ -18,7 +18,7 @@
                                                     <tr>
                                                         <th>ช่องจอด</th>
                                                         <th class="has-text-centered">สถานะ</th>
-                                                        <th>เวลาที่จอด (นาที)</th>
+                                                        <th>เวลาที่จอด(ชั่วโมง)</th>
                                                         <th>นับครั้ง</th>
                                                     </tr>
                                                 </thead>

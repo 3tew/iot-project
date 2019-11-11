@@ -67,7 +67,7 @@ class Slot extends Model
     {
         $last_in = $this->last_in();
         $list_in_time = strtotime($last_in['created_at']);
-        $time = floor((time() - $list_in_time) / 60);
+        $time = floor(((time() - $list_in_time) / 60) / 60);
 
         return $time;
     }
