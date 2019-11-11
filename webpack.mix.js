@@ -1,4 +1,15 @@
-const mix = require('laravel-mix');
+/*jshint esversion: 6 */
+
+const mix = require("laravel-mix");
+
+mix.webpackConfig({
+    resolve: {
+        extensions: ['.js', '.vue'],
+        alias: {
+            '@': __dirname + '/resources'
+        }
+    }
+});
 
 /*
  |--------------------------------------------------------------------------
@@ -11,5 +22,5 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css');
+mix.js("resources/js/app.js", "public/js")
+    .sass("resources/sass/app.scss", "public/css");
