@@ -17,8 +17,8 @@ Route::get('/debug-sentry', function () {
 });
 
 // API
-Route::get('slots/{id}/present', 'SlotController@present')->where('id', '[0-9]+');
-Route::get('slots/{id}/empty', 'SlotController@empty')->where('id', '[0-9]+');
+Route::get('slots/{id}/present/{token}', 'SlotController@present')->where(['id'  => '[0-9]+', 'name' => '[A-Za-z0-9]+']);
+Route::get('slots/{id}/empty/{token}', 'SlotController@empty')->where(['id'  => '[0-9]+', 'name' => '[A-Za-z0-9]+']);
 Route::resource('slots', 'SlotController');
 
 // SPA

@@ -93,8 +93,10 @@ class SlotController extends Controller
         // }
     }
 
-    public function present($id)
+    public function present($id, $token)
     {
+        if (!$this->verify_access_token($token)) return $this->bad_request();
+
         $slot = Slot::find($id);
         if($slot) {
             if($slot->status == false) Slot::create_log($slot, 'in');
@@ -105,8 +107,10 @@ class SlotController extends Controller
         } else return $this->bad_request();
     }
 
-    public function empty($id)
+    public function empty($id, $token)
     {
+        if (!$this->verify_access_token($token)) return $this->bad_request();
+
         $slot = Slot::find($id);
         if($slot) {
             if($slot->status == true) Slot::create_log($slot, 'out');
@@ -122,5 +126,12 @@ class SlotController extends Controller
     private function bad_request()
     {
         return response()->json(['message' => 'Bad request'], 400);
+    }
+
+    private function verify_access_token($token)
+    {
+        $def_token = 'JustAVeryStrongAndCuteToken';
+        if($token == $def_token) return true;
+        else return false;
     }
 }
