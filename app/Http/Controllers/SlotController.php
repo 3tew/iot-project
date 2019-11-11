@@ -93,32 +93,22 @@ class SlotController extends Controller
         // }
     }
 
-    public function present($id, $token)
+    public function present($payload, $token)
     {
         if (!$this->verify_access_token($token)) return $this->bad_request();
 
-        $slot = Slot::find($id);
-        if($slot) {
-            if($slot->status == false) Slot::create_log($slot, 'in');
-            $slot->status = true;
-            $slot->save();
+        $dataArray = explode(',', $payload);
 
-            return response()->json($slot);
-        } else return $this->bad_request();
-    }
-
-    public function empty($id, $token)
-    {
-        if (!$this->verify_access_token($token)) return $this->bad_request();
-
-        $slot = Slot::find($id);
-        if($slot) {
-            if($slot->status == true) Slot::create_log($slot, 'out');
-            $slot->status = false;
-            $slot->save();
-
-            return response()->json($slot);
-        } else return $this->bad_request();
+        foreach ($dataArray as $key => $value) {
+            $slot = Slot::where('name', ($key+1))->get()->first();
+            if($slot) {
+                if($value == 255 && $slot->status == false) Slot::create_log($slot, 'in');
+                if($value == 0 && $slot->status == true) Slot::create_log($slot, 'out');
+                ($value == 255) ? $slot->status = true : $slot->status = false;
+                $slot->save();
+            } else return $this->bad_request();
+        }
+        return response()->json(['message' => 'OK']);
     }
 
     /* PRIVATE METHOD */

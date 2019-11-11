@@ -31,7 +31,7 @@
                                                         <td>{{ slot.countIn }}</td>
                                                     </tr>
                                                     <tr id="data-loader">
-                                                        <td colspan="5" class="has-text-centered" style="line-height: 1rem;"><div class="button is-loading" style="height: 1rem; border: 0px;"></div></td>
+                                                        <td colspan="4" class="has-text-centered" style="line-height: 1rem;"><div class="button is-loading" style="height: 1rem; border: 0px;"></div></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
