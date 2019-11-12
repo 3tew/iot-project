@@ -104,9 +104,16 @@ class SlotController extends Controller
             $slot = Slot::where('name', $data[0])->get()->first();
 
             if($slot) {
-                if($data[1] == 255 && $slot->status == false) Slot::create_log($slot, 'in');
-                if($data[1] == 0 && $slot->status == true) Slot::create_log($slot, 'out');
-                ($data[1] == 255) ? $slot->status = true : $slot->status = false;
+                # Create Log
+                if($data[1] == 100 && $slot->status == 'ready') Slot::create_log($slot, 'in');
+                if($data[1] == 255 && $slot->status == 'busy') Slot::create_log($slot, 'out');
+
+                switch ($data[1]) {
+                    case 255: $slot->status = 'ready'; break;
+                    case 100: $slot->status = 'busy'; break;
+                    default: $slot->status = 'error'; break;
+                }
+                
                 $slot->save();
             } else return $this->bad_request();
         }

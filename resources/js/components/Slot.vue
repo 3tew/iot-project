@@ -25,9 +25,10 @@
                                                 <tbody>
                                                     <tr v-for="slot in slots" v-bind:key="slot.id">
                                                         <td>{{ slot.name }}</td>
-                                                        <td v-if="slot.status === true" class="has-text-centered"><span class="has-text-danger"><i class="fas fa-times-circle"></i> <small>ไม่ว่าง</small></span></td>
-                                                        <td v-else class="has-text-centered"><span class="has-text-success"><i class="fas fa-check-circle"></i> <small>ว่าง</small></span></td>
-                                                        <td>{{ slot.status === true ? slot.present_time : '-' }}</td>
+                                                        <td v-if="slot.status == 'busy'" class="has-text-centered"><span class="has-text-danger"><i class="fas fa-times-circle"></i> <small>ไม่ว่าง</small></span></td>
+                                                        <td v-else-if="slot.status == 'ready'" class="has-text-centered"><span class="has-text-success"><i class="fas fa-check-circle"></i> <small>ว่าง</small></span></td>
+                                                        <td v-else class="has-text-centered"><span class="has-text-warning"><i class="fas fa-exclamation-circle"></i> <small>ผิดพลาด</small></span></td>
+                                                        <td>{{ slot.status == 'busy' ? slot.present_time : '-' }}</td>
                                                         <td>{{ slot.count_in }}</td>
                                                     </tr>
                                                     <tr id="data-loader">
