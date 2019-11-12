@@ -19,7 +19,10 @@ class SlotController extends Controller
     {
         $slots = Slot::list_data();
 
-        return response()->json(['data' => $slots]);
+        return response()->json([
+                'data' => $slots,
+                'empty' => Slot::countEmptySlot()
+            ]);
     }
 
     /**
@@ -113,18 +116,18 @@ class SlotController extends Controller
                     case 100: $slot->status = 'busy'; break;
                     default: $slot->status = 'error'; break;
                 }
-                
+
                 $slot->save();
             } else return $this->bad_request();
         }
-        return response()->json(['message' => 'OK']);
+        return 'OK';
     }
 
     /* PRIVATE METHOD */
 
     private function bad_request()
     {
-        return response()->json(['message' => 'Bad request'], 400);
+        return 'BAD_REQUEST';
     }
 
     private function verify_access_token($token)

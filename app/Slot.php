@@ -27,14 +27,20 @@ class Slot extends Model
         'present_time',
         'last_in',
         'last_out',
+        'count_in_month',
         'count_in'
     ];
 
     public static function list_data()
     {
-        $slots = Slot::orderBy('name', 'asc')->paginate(15);
+        return Slot::orderBy('name', 'asc')->paginate(15);
+    }
 
-        return $slots;
+    public static function countEmptySlot()
+    {
+        $all_count = Slot::all()->count();
+        $busy_count = Slot::where('status', 'busy')->get()->count();
+        return $all_count - $busy_count;
     }
 
     public function getPresentTimeAttribute()
@@ -71,6 +77,14 @@ class Slot extends Model
             ['slot_id', $this->id],
             ['action', 'in']
         ])->get()->count();
+    }
+
+    public function getCountInMonthAttribute()
+    {
+        return SlotLog::where([
+            ['slot_id', $this->id],
+            ['action', 'in']
+        ])->whereMonth('created_at', date("m", time()))->get()->count();
     }
 
     public static function create_log($slot, $action)
