@@ -91,7 +91,7 @@ export default {
         async setupSlots() {
             const slots = await this.fetchSlots();
 
-            this.slots = slots || [];
+            this.slots = slots.data || [];
             this.getDatetimeNow();
 
             // Data Loader Animation
