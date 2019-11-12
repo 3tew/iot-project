@@ -27,8 +27,8 @@
                                                         <td>{{ slot.name }}</td>
                                                         <td v-if="slot.status === true" class="has-text-centered"><span class="has-text-danger"><i class="fas fa-times-circle"></i> <small>ไม่ว่าง</small></span></td>
                                                         <td v-else class="has-text-centered"><span class="has-text-success"><i class="fas fa-check-circle"></i> <small>ว่าง</small></span></td>
-                                                        <td>{{ slot.status === true ? slot.presentTime : '-' }}</td>
-                                                        <td>{{ slot.countIn }}</td>
+                                                        <td>{{ slot.status === true ? slot.present_time : '-' }}</td>
+                                                        <td>{{ slot.count_in }}</td>
                                                     </tr>
                                                     <tr id="data-loader">
                                                         <td colspan="4" class="has-text-centered" style="line-height: 1rem;"><div class="button is-loading" style="height: 1rem; border: 0px;"></div></td>
