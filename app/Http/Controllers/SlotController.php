@@ -100,7 +100,8 @@ class SlotController extends Controller
         $dataArray = explode(',', $payload);
 
         foreach ($dataArray as $key => $value) {
-            $slot = Slot::where('name', ($key+1))->get()->first();
+            $data = explode('|', $value);
+            $slot = Slot::where('name', $data[0])->get()->first();
             if($slot) {
                 if($value == 255 && $slot->status == false) Slot::create_log($slot, 'in');
                 if($value == 0 && $slot->status == true) Slot::create_log($slot, 'out');

@@ -22,21 +22,55 @@ class Slot extends Model
         'status' => false,
     ];
 
+    // Appending values
+    protected $appends = [
+        'present_time',
+        'last_in',
+        'last_out',
+        'count_in'
+    ];
+
     public static function list_data()
     {
-        $slots = DB::table('slots')->orderBy('name', 'asc')->paginate(15);
-        $slots = $slots->map(function($item, $key) {
-            return [
-                'id' => $item->id,
-                'name' => $item->name,
-                'status' => $item->status,
-                'createdAt' => $item->created_at,
-                'updatedAt' => $item->updated_at,
-                'presentTime' => ($item->status) ? Slot::find($item->id)->present_time() : 0,
-                'countIn' => Slot::find($item->id)->count_in()
-            ];
-        });
+        $slots = Slot::orderBy('name', 'asc')->paginate(15);
+
         return $slots;
+    }
+
+    public function getPresentTimeAttribute()
+    {
+        $last_in = $this->lastIn;
+        $time = 0;
+        if($last_in) {
+            $list_in_time = strtotime($last_in['created_at']);
+            $time = ceil(((time() - $list_in_time) / 60) / 60);
+        }
+
+        return $time;
+    }
+
+    public function getLastInAttribute()
+    {
+        return SlotLog::where([
+            ['slot_id', $this->id],
+            ['action', 'in']
+        ])->get()->last();
+    }
+
+    public function getLastOutAttribute()
+    {
+        return SlotLog::where([
+            ['slot_id', $this->id],
+            ['action', 'out']
+        ])->get()->last();
+    }
+
+    public function getCountInAttribute()
+    {
+        return SlotLog::where([
+            ['slot_id', $this->id],
+            ['action', 'in']
+        ])->get()->count();
     }
 
     public static function create_log($slot, $action)
@@ -45,38 +79,5 @@ class Slot extends Model
         $log->slot()->associate($slot);
         $log->action = $action;
         $log->save();
-    }
-
-    public function last_in()
-    {
-        return SlotLog::where([
-            ['slot_id', $this->id],
-            ['action', 'in']
-        ])->get()->last();
-    }
-
-    public function last_out()
-    {
-        return SlotLog::where([
-            ['slot_id', $this->id],
-            ['action', 'out']
-        ])->get()->last();
-    }
-
-    public function present_time()
-    {
-        $last_in = $this->last_in();
-        $list_in_time = strtotime($last_in['created_at']);
-        $time = floor(((time() - $list_in_time) / 60) / 60);
-
-        return $time;
-    }
-
-    public function count_in()
-    {
-        return SlotLog::where([
-            ['slot_id', $this->id],
-            ['action', 'in']
-        ])->get()->count();
     }
 }
