@@ -19,7 +19,7 @@ class Slot extends Model
 
     // Set default values
     protected $attributes = [
-        'status' => false,
+        'status' => 'ready',
     ];
 
     // Appending values
