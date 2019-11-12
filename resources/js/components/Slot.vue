@@ -9,6 +9,9 @@
                                 <div class="content">
                                     <h2>Parking Lot</h2>
                                     <p>ระบบแสดงสถานะที่จอดรถ</p>
+                                    <h1 v-if="empty > 0" class="has-text-success">ว่าง {{ empty }} ช่อง</h1>
+                                    <h1 v-else-if="empty === 0" class="has-text-danger">ที่จอดเต็ม</h1>
+                                    <h1 v-else><div class="button is-loading" style="height: 1rem; border: 0px;"></div></h1>
                                 </div>
                                 <div class="content">
                                     <div class="content">
@@ -19,7 +22,9 @@
                                                         <th>ช่องจอด</th>
                                                         <th class="has-text-centered">สถานะ</th>
                                                         <th>เวลาที่จอด(ชั่วโมง)</th>
-                                                        <th>นับครั้ง</th>
+                                                        <th>เริ่มจอดเมื่อ</th>
+                                                        <th>นับครั้ง(เดือนนี้)</th>
+                                                        <th>นับครั้ง(ทั้งหมด)</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -29,10 +34,12 @@
                                                         <td v-else-if="slot.status == 'ready'" class="has-text-centered"><span class="has-text-success"><i class="fas fa-check-circle"></i> <small>ว่าง</small></span></td>
                                                         <td v-else class="has-text-centered"><span class="has-text-warning"><i class="fas fa-exclamation-circle"></i> <small>ผิดพลาด</small></span></td>
                                                         <td>{{ slot.status == 'busy' ? slot.present_time : '-' }}</td>
+                                                        <td>{{ slot.status == 'busy' ? slot.last_in.created_at : '-' }}</td>
+                                                        <td>{{ slot.count_in_month }}</td>
                                                         <td>{{ slot.count_in }}</td>
                                                     </tr>
                                                     <tr id="data-loader">
-                                                        <td colspan="4" class="has-text-centered" style="line-height: 1rem;"><div class="button is-loading" style="height: 1rem; border: 0px;"></div></td>
+                                                        <td colspan="6" class="has-text-centered" style="line-height: 1rem;"><div class="button is-loading" style="height: 1rem; border: 0px;"></div></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -66,12 +73,14 @@ export default {
     data() {
         const appUrl = window.location.href.split('/')[2];
         const slots = [];
+        const empty = null;
         const dateTime = "";
 
         return {
             componentName: 'Slot',
             appUrl,
             slots,
+            empty,
             dateTime
         }
     },
@@ -92,7 +101,8 @@ export default {
         async setupSlots() {
             const slots = await this.fetchSlots();
 
-            this.slots = slots.data || [];
+            this.slots = slots.data.data;
+            this.empty = slots.empty;
             this.getDatetimeNow();
 
             // Data Loader Animation
@@ -108,7 +118,7 @@ export default {
                     // handle error
                     console.log(error);
                 })
-            return result.data.data;
+            return result.data;
         },
         getDatetimeNow() {
             var today = new Date();
