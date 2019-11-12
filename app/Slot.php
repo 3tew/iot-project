@@ -39,7 +39,7 @@ class Slot extends Model
     public static function countEmptySlot()
     {
         $all_count = Slot::all()->count();
-        $busy_count = Slot::where('status', 'busy')->get()->count();
+        $busy_count = Slot::where('status', 'busy')->orwhere('status', 'error')->get()->count();
         return $all_count - $busy_count;
     }
 
