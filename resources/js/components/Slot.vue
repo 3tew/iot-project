@@ -15,8 +15,8 @@
                                 </div>
                                 <div class="content">
                                     <div class="content">
-                                        <div class="table-container">
-                                            <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+                                        <div style="overflow-x: auto;">
+                                            <table style="display: block !important;max-width: 100vw;" class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
                                                 <thead>
                                                     <tr>
                                                         <th>ช่องจอด</th>
@@ -43,12 +43,12 @@
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                            <p class="has-text-centered">
-                                                <small>อัพเดทล่าสุดเมื่อ<br><span>{{ dateTime }}</span></small>
-                                            </p>
                                         </div>
                                     </div>
                                     <div class="content" style="margin-top:2rem;">
+                                        <p class="has-text-centered">
+                                            <small>อัพเดทล่าสุดเมื่อ<br><span>{{ dateTime }}</span></small>
+                                        </p>
                                         <router-link tag="a" to="/">
                                             <button class="button is-primary">
                                                 <i class="fas fa-arrow-circle-right" style="margin-right:0.5rem;"></i>
