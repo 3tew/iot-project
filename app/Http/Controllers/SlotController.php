@@ -102,10 +102,11 @@ class SlotController extends Controller
         foreach ($dataArray as $key => $value) {
             $data = explode('|', $value);
             $slot = Slot::where('name', $data[0])->get()->first();
+
             if($slot) {
-                if($value == 255 && $slot->status == false) Slot::create_log($slot, 'in');
-                if($value == 0 && $slot->status == true) Slot::create_log($slot, 'out');
-                ($value == 255) ? $slot->status = true : $slot->status = false;
+                if($data[1] == 255 && $slot->status == false) Slot::create_log($slot, 'in');
+                if($data[1] == 0 && $slot->status == true) Slot::create_log($slot, 'out');
+                ($data[1] == 255) ? $slot->status = true : $slot->status = false;
                 $slot->save();
             } else return $this->bad_request();
         }
